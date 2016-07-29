@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>Shorten Url (MrM)</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script> 
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.ajaxSetup({
+					cache:false
+				});
+				
+				// grab the URL
+				$('a#shortenit').click(function() {
+					var longUrl = $('input#longUrl').val();	
+					
+					{
+					
+						// proceed on with the ajax-ing
+						$('p#status').html('getting your link...');
+						$.post('url_short.php'
+							, { 'url':longUrl }
+							, function(data) {
+								if (data != null) {
+									var outputDiv = $('p#bitlyurl span');
+									$('p#status').html('success!');
+									$(outputDiv).html('<a href="'+ data +'" target="_blank">'+ data + '</a>');
+									$('p#bitlyurl').show();
+								} else {
+									$('p#status').html('<strong>Failure.</strong>  Make sure your <a href="http://bit.ly/a/your_api_key" target="_blank">bitly API username and key</a> are correct on line 25 of ajax_bitly.php');
+								}
+							});
+					}
+				});
+					
+				
+			});		
+		</script>
+	</head>
+	<body>
+	<p>Enter URL:</p>
+	<input type="text" id="longUrl" value="http://" />
+	<a href="#" id="shortenit">Shorten</a>
+	<br /><br />
+	<p id="status"></p>
+	<p id="bitlyurl" style="display:none;">Your shortened URL is: <span style="font-weight:bold;"></span></p>
+	
+	</body>
+</html>
